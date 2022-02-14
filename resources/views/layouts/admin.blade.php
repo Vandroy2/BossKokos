@@ -155,7 +155,7 @@
                     </a>
                     <ul aria-expanded="false">
 
-                        <li><a href="{{route('admin.dictionaries.edit', 1)}}">Словарь</a></li>
+                        <li><a href="{{route('admin.dictionaries.edit')}}">Словари</a></li>
 
                     </ul>
                 </li>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\DictionaryController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -51,7 +52,16 @@ use Illuminate\Support\Facades\Route;
 
         //-------------------------------------Dictionaries-------------------------------------------------------------
 
-            Route::resources(['dictionaries'=>DictionaryController::class]);
+            Route::prefix('dictionaries')->group(function (){
+
+                Route::get('/edit', [DictionaryController::class, 'edit'])->name('dictionaries.edit');
+
+                Route::put('/update', [DictionaryController::class, 'update'])->name('dictionaries.update');
+
+            });
+
+
+
 
 
 

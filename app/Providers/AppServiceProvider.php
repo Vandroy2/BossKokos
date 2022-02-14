@@ -13,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+//        $this->app->bind(PaymentService::class, function ($app){
+//            return new PaymentService(config('liqpay.privat_key'), config('liqpay.privat_key'));
+//        });
     }
 
     /**

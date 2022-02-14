@@ -2,65 +2,29 @@
 
 namespace App\Http\Controllers;
 
+
+
+use App\Services\Helpers\DictionaryHelper;
+use Illuminate\Http\RedirectResponse;
+
+
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\View\View;
+use Spatie\TranslationLoader\LanguageLine;
 
 class DictionaryController extends Controller
 {
-    /**
-     * @return View
-     */
-
-    public function index(): View
+    public function edit()
     {
-        return view('admin.dictionaries.index');
+
+        $translations = LanguageLine::all()->groupBy('group');
+
+        return view('admin.dictionaries.edit', compact('translations'));
     }
 
-    /**
-     *
-     */
-
-    public function create()
+    public function update(Request $request): RedirectResponse
     {
-        //
-    }
+        DictionaryHelper::updateFromRequest($request);
 
-    /**
-     * @param Request $request
-     */
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * @param $id
-     * @return View
-     */
-
-    public function edit($id):View
-    {
-        return view('admin.dictionaries.edit');
-    }
-
-    /**
-     * @param Request $request
-     * @param $id
-     */
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * @param $id
-     */
-
-    public function destroy($id)
-    {
-        //
+        return redirect()->route('admin.dictionaries.edit')->with('success', 'словари обновлены');
     }
 }

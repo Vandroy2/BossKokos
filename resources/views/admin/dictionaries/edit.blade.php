@@ -14,10 +14,11 @@
 
 @section('content')
     <h2 class="content-heading">Словари</h2>
+    @include('includes.errors')
     <div class="row">
         <div class="col-sm-12">
             <div class="block">
-                <form method="post" id="form-language-lines" action="">
+                <form method="post" id="form-language-lines" action="{{ route('admin.dictionaries.update') }}">
                     @method('PUT')
                     @csrf
                     <div class="block-content">
@@ -25,48 +26,60 @@
                             <div class="col-sm-12">
                                 <nav>
                                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-{{--                                        @forelse($lines as $group => $line)--}}
-{{--                                            <a class="nav-item nav-link @if($loop->first) active @endif" id="{{ $group }}-link" data-toggle="tab" href="#{{ $group }}" role="tab" aria-controls="{{ $group }}" aria-selected="true">{{ $group }}</a>--}}
-{{--                                        @empty--}}
-{{--                                        @endforelse--}}
+                                        @forelse($translations as $group => $line)
+                                            <a class="nav-item nav-link @if($loop->first) active @endif" id="{{ $group }}-link" data-toggle="tab" href="#{{ $group }}" role="tab" aria-controls="{{ $group }}" aria-selected="true">{{ $group }}</a>
+                                        @empty
+                                        @endforelse
                                     </div>
                                 </nav>
                                 <div class="tab-content" id="nav-tabContent">
 
-{{--                                    @forelse($lines as $group => $langLines)--}}
-{{--                                        <div class="tab-pane fade show @if($loop->first) active @endif" id="{{ $group }}" role="tabpanel" aria-labelledby="{{ $group }}-link">--}}
-{{--                                            <br>--}}
+                                    @forelse($translations as $group => $langLines)
+                                        <div class="tab-pane fade show @if($loop->first) active @endif" id="{{ $group }}" role="tabpanel" aria-labelledby="{{ $group }}-link">
+                                            <br>
 
-{{--                                            @forelse($langLines as $line)--}}
-{{--                                                <div class="row">--}}
-{{--                                                    <input type="hidden" name="{{ $line->key.'[group]' }}" value="{{ $group }}">--}}
-{{--                                                    @component('admin.partials.textarea_lang_input', [--}}
-{{--                                                        'name' => $group.'['.$line->key.'][ru]',--}}
-{{--                                                        'label' => $line->key. ' ru',--}}
-{{--                                                        'placeholder' => 'Введите meta description',--}}
-{{--                                                        'object' => $line,--}}
-{{--                                                        'rows' => 2,--}}
-{{--                                                        'lang' => 'ru',--}}
-{{--                                                        'width' => 'col-sm-4'--}}
-{{--                                                    ])@endcomponent--}}
-{{--                                                    @component('admin.partials.textarea_lang_input', [--}}
-{{--                                                        'name' => $group.'['.$line->key.'][uk]',--}}
-{{--                                                        'label' => $line->key. ' uk',--}}
-{{--                                                        'placeholder' => 'Введите meta description',--}}
-{{--                                                        'object' => $line,--}}
-{{--                                                        'rows' => 2,--}}
-{{--                                                        'lang' => 'uk',--}}
-{{--                                                        'width' => 'col-sm-4'--}}
-{{--                                                    ])@endcomponent--}}
-{{--                                                </div>--}}
+                                            @forelse($langLines as $line)
+                                                <div class="row">
 
-{{--                                            @empty--}}
-{{--                                            @endforelse--}}
+                                                    @component('includes.dictionary_input', [
+                                                        'name' => $group.'['.$line->key.'][ru]',
+                                                        'label' => $line->key. ' (русский вариант)',
+                                                        'placeholder' => 'Введите meta description',
+                                                        'object' => $line,
+                                                        'rows' => 3,
+                                                        'lang' => 'ru',
+                                                        'width' => 'col-sm-4'
+                                                    ])@endcomponent
+                                                    @component('includes.dictionary_input', [
+                                                        'name' => $group.'['.$line->key.'][uk]',
+                                                        'label' => $line->key. ' (україський варiант)',
+                                                        'placeholder' => 'Введите meta description',
+                                                        'object' => $line,
+                                                        'rows' => 3,
+                                                        'lang' => 'uk',
+                                                        'width' => 'col-sm-4'
+                                                    ])@endcomponent
 
-{{--                                        </div>--}}
-{{--                                    @empty--}}
-{{--                                        <h5>Еще не создано ни одной языковой переменной</h5>--}}
-{{--                                    @endforelse--}}
+
+                                                    @component('includes.dictionary_input', [
+                                                      'name' => $group.'['.$line->key.'][en]',
+                                                      'label' => $line->key. ' (english version)',
+                                                      'placeholder' => 'Введите meta description',
+                                                      'object' => $line,
+                                                      'rows' => 3,
+                                                      'lang' => 'en',
+                                                      'width' => 'col-sm-4'
+                                                  ])@endcomponent
+
+                                                </div>
+
+                                            @empty
+                                            @endforelse
+
+                                        </div>
+                                    @empty
+                                        <h5>Еще не создано ни одной языковой переменной</h5>
+                                    @endforelse
 
                                 </div>
                             </div>
@@ -84,6 +97,7 @@
 
 
 @endsection
+
 
 @section('js_after')
 

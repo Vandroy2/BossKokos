@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\LoginController;
 
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +16,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/','welcome')->name('main');
+Route::get('/',[PaymentController::class, 'index'])->name('main');
+
+//------------------------------------Payment-------------------------------------------------------------------
+Route::prefix('payments')->group(function (){
+
+    Route::view('/', 'index')->name('payments.index');
+
+    Route::view('/success', 'site.payments.success');
+
+    Route::post('/create', [PaymentController::class, 'create'])->name('payments.create');
+
+
+
+
+});
 
 
 
